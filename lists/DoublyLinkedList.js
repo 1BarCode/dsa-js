@@ -44,7 +44,7 @@ export default class DoublyLinkedList {
 		const successor = this.sentinel.next.next;
 		this.sentinel.next = successor;
 
-		if (successor) {
+		if (successor !== null) {
 			successor.prev = this.sentinel;
 		} else {
 			this.tail = this.sentinel;
@@ -77,7 +77,7 @@ export default class DoublyLinkedList {
 	toArray() {
 		const array = [];
 		let current = this.sentinel.next;
-		while (current) {
+		while (current !== null) {
 			array.push(current.data);
 			current = current.next;
 		}
