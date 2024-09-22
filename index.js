@@ -1,11 +1,10 @@
-import DoublyLinkedList from "./lists/DoublyLinkedList.js";
+import BinarySearchTree from "./trees/bst/BinarySearchTree.js";
 
-const list = new DoublyLinkedList();
-list.addLast(1);
-list.addLast(2);
-list.addLast(3);
-list.addLast(4);
+const bst = new BinarySearchTree();
+// insert data randomly from 0 to 100
+for (let i = 0; i < 10; i++) {
+	bst.insert(Math.floor(Math.random() * 100));
+}
 
-console.log(list.toArray()); // [1, 2, 3, 4]
-list.removeFirst();
-console.log(list.toArray()); // [2, 3, 4]
+bst.inOrder((root) => console.log(root.data));
+console.log(bst.getHeight());

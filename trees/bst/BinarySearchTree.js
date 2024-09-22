@@ -21,7 +21,7 @@ export default class BinarySearchTree {
 		return null;
 	}
 
-	searchRecurHelper(root, value) {
+	#searchRecurHelper(root, value) {
 		if (root === null) return root; // base case, exit condition
 		if (root.data === value) return root; // found
 		if (value < root.data) return this.searchRecurHelper(root.left, data); // continue search left
@@ -29,7 +29,7 @@ export default class BinarySearchTree {
 	}
 
 	searchRecur(value) {
-		return this.searchRecurHelper(this.root, value);
+		return this.#searchRecurHelper(this.root, value);
 	}
 
 	// time: at best O(logN), at worst O(N) (for unbalanced, all straight)
@@ -66,7 +66,7 @@ export default class BinarySearchTree {
 		}
 	}
 
-	insertRecursiveHelper(root, data) {
+	#insertRecursiveHelper(root, data) {
 		if (root === null) {
 			return new Node(data);
 		}
@@ -81,7 +81,101 @@ export default class BinarySearchTree {
 	}
 
 	insertRecursive(data) {
-		this.insertRecursiveHelper(this.root, data);
+		this.#insertRecursiveHelper(this.root, data);
+	}
+
+	/**
+     *  search for the node
+	    case 1: node being removed is a leaf (no child), replace the parent's left or right with null (depend on where removing node is)
+		case 2: node being removed has one child, the parent's left or right is assigned with the removed node's single child (the successor)
+		case 3: node being removed has 2 children. First locate the node's successor (the leftmost child of the node's right subtree). Copy of the successor's key to the current node. Finally remove the successor from the node's right subtree.
+        time: best is logN, worst O(N) for a tree that decay into linked list
+        space: O(1)
+     */
+	remove(value) {
+		let parent = null;
+		let curr = this.root;
+
+		while (curr !== null) {
+			// check if curr node has matching value
+			if (curr.data === value) {
+				// case 1: node is a leaf with no children
+				if (curr.left === null && curr.right === null) {
+					if (parent === null) {
+						// curr is root
+						this.root = null;
+					} else if (parent.left === curr) {
+						parent.left = null;
+					} else {
+						parent.right = null;
+					}
+					return true; // found and removed
+				} else if (curr.left !== null && curr.right === null) {
+					// case 2: node has a left child
+					if (parent === null) {
+						// curr is root
+						this.root = curr.left;
+					} else if (parent.left === curr) {
+						parent.left = curr.left;
+					} else {
+						parent.right = curr.left;
+					}
+					return true; // found and removed
+				} else if (curr.right !== null && curr.left === null) {
+					// case 2: node has a right child
+					if (parent === null) {
+						// curr is root
+						this.root = curr.right;
+					} else if (parent.left === curr) {
+						parent.left = curr.right;
+					} else {
+						parent.right = curr.right;
+					}
+					return true; // found and removed
+				} else {
+					// case 3
+					let successor = curr.right;
+					while (successor.left !== null) {
+						successor = successor.left;
+					}
+					curr.data = successor.data; // replace curr data with successor's data
+
+					// continue to the remove operation, but will remove the successor's node from the right subtree
+					// value to remove is updated to successor's data as that is the node to be removed now
+					parent = curr;
+					curr = curr.right;
+					value = successor.data;
+				}
+			} else if (value < curr.data) {
+				// search left
+				parent = curr;
+				curr = curr.left;
+			} else {
+				// search right
+				parent = curr;
+				curr = curr.right;
+			}
+		}
+		return false; // node not found
+	}
+
+	#inOrderHelper(root, callback) {
+		if (root === null) return;
+		this.#inOrderHelper(root.left, callback);
+		callback(root);
+		this.#inOrderHelper(root.right, callback);
+	}
+	inOrder(callback) {
+		this.#inOrderHelper(this.root, callback);
+	}
+
+	#getHeightHelper(root) {
+		if (root === null) return 0;
+		return 1 + Math.max(this.#getHeightHelper(root.left), this.#getHeightHelper(root.right));
+	}
+	getHeight() {
+		if (this.root === null) return -1;
+		return this.#getHeightHelper(this.root) - 1; // -1 since root level does not count
 	}
 }
 
