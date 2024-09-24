@@ -1,67 +1,51 @@
 import DoublyLinkedList from "./DoublyLinkedList.js";
 
-test("DoublyLinkedList", () => {
-	const list = new DoublyLinkedList();
-	for (let i = 1; i <= 4; i++) {
-		list.addLast(i);
-	}
+describe("DoublyLinkedList", () => {
+	let list;
+	beforeEach(() => {
+		list = new DoublyLinkedList();
+		for (let i = 1; i <= 4; i++) {
+			list.addLast(i);
+		}
+	});
 
-	expect(list.toArray()).toEqual([1, 2, 3, 4]);
-	expect(list.length()).toBe(4);
-});
+	it("should set up correctly", () => {
+		expect(list.toArray()).toEqual([1, 2, 3, 4]);
+		expect(list.length()).toBe(4);
+	});
 
-test("DoublyLinkedList removeFirst", () => {
-	const list = new DoublyLinkedList();
-	for (let i = 1; i <= 4; i++) {
-		list.addLast(i);
-	}
+	it("should removeFirst", () => {
+		const removed = list.removeFirst();
 
-	const removed = list.removeFirst();
+		expect(removed).toBe(1);
+		expect(list.toArray()).toEqual([2, 3, 4]);
+		expect(list.length()).toBe(3);
+	});
 
-	expect(removed).toBe(1);
-	expect(list.toArray()).toEqual([2, 3, 4]);
-	expect(list.length()).toBe(3);
-});
+	it("should removeLast", () => {
+		const removed = list.removeLast();
 
-test("DoublyLinkedList removeLast", () => {
-	const list = new DoublyLinkedList();
-	for (let i = 1; i <= 4; i++) {
-		list.addLast(i);
-	}
+		expect(removed).toBe(4);
+		expect(list.toArray()).toEqual([1, 2, 3]);
+		expect(list.length()).toBe(3);
+	});
 
-	const removed = list.removeLast();
+	it("should addFirst", () => {
+		for (let i = 1; i <= 4; i++) {
+			list.addFirst(i);
+		}
 
-	expect(removed).toBe(4);
-	expect(list.toArray()).toEqual([1, 2, 3]);
-	expect(list.length()).toBe(3);
-});
+		expect(list.toArray()).toEqual([4, 3, 2, 1, 1, 2, 3, 4]);
+		expect(list.length()).toBe(8);
+	});
 
-test("DoublyLinkedList addFirst", () => {
-	const list = new DoublyLinkedList();
-	for (let i = 1; i <= 4; i++) {
-		list.addFirst(i);
-	}
+	it("should getFirst", () => {
+		expect(list.getFirst()).toBe(1);
+		expect(list.length()).toBe(4);
+	});
 
-	expect(list.toArray()).toEqual([4, 3, 2, 1]);
-	expect(list.length()).toBe(4);
-});
-
-test("DoublyLinkedList getFirst", () => {
-	const list = new DoublyLinkedList();
-	for (let i = 1; i <= 4; i++) {
-		list.addLast(i);
-	}
-
-	expect(list.getFirst()).toBe(1);
-	expect(list.length()).toBe(4);
-});
-
-test("DoublyLinkedList getLast", () => {
-	const list = new DoublyLinkedList();
-	for (let i = 1; i <= 4; i++) {
-		list.addLast(i);
-	}
-
-	expect(list.getLast()).toBe(4);
-	expect(list.length()).toBe(4);
+	it("should getLast", () => {
+		expect(list.getLast()).toBe(4);
+		expect(list.length()).toBe(4);
+	});
 });

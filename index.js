@@ -1,10 +1,17 @@
-import BinarySearchTree from "./trees/bst/BinarySearchTree.js";
+import Trie from "./trees/trie/index.js";
 
-const bst = new BinarySearchTree();
-// insert data randomly from 0 to 100
-for (let i = 0; i < 10; i++) {
-	bst.insert(Math.floor(Math.random() * 100));
-}
+const trie = new Trie();
+trie.insert("apple");
+trie.insert("app");
+trie.insert("ap");
+trie.insert("bat");
+trie.insert("bath");
+trie.insert("bathing");
+trie.insert("bathing");
 
-bst.inOrder((root) => console.log(root.data));
-console.log(bst.getHeight());
+// console.log(trie.search("apple")); // true
+// console.log(trie.search("app")); // true
+// console.log(trie.remove("ap"));
+// console.log(trie.search("ap")); // false
+// console.log(trie.search("app")); // true
+// console.log(trie.search("apple")); // false
