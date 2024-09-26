@@ -177,6 +177,23 @@ export default class BinarySearchTree {
 		if (this.root === null) return -1;
 		return this.#getHeightHelper(this.root) - 1; // -1 since root level does not count
 	}
+
+	#toArrayHelper(root, result) {
+		if (root === null) {
+			result.push(null);
+			return;
+		}
+
+		result.push(root.data);
+		this.#toArrayHelper(root.left, result);
+		this.#toArrayHelper(root.right, result);
+	}
+
+	toArray() {
+		const result = [];
+		this.inOrder((node) => result.push(node.data));
+		return result;
+	}
 }
 
 // insert(data) {
