@@ -1,4 +1,4 @@
-import Trie from "./index.js";
+import Trie from ".";
 
 describe("Trie", () => {
 	let trie;

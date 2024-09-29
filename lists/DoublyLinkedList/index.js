@@ -74,6 +74,59 @@ export default class DoublyLinkedList {
 		return this.isEmpty() ? null : this.tail.data;
 	}
 
+	contains(data) {
+		let current = this.sentinel.next;
+		while (current !== null) {
+			if (current.data === data) return true;
+			current = current.next;
+		}
+		return false;
+	}
+
+	indexOf(data) {
+		let current = this.sentinel.next;
+		let index = 0;
+		while (current !== null) {
+			if (current.data === data) return index;
+			current = current.next;
+			index++;
+		}
+		return -1;
+	}
+
+	get(index) {
+		if (index < 0 || index >= this.size) {
+			return null;
+		}
+		let current = this.sentinel.next;
+		for (let i = 0; i < index; i++) {
+			current = current.next;
+		}
+		return current.data;
+	}
+
+	/**
+	 * Replaces the element at the specified position in this list with the new element.
+	 */
+	set(index, data) {
+		if (index < 0 || index >= this.size) {
+			return null;
+		}
+		let current = this.sentinel.next;
+		for (let i = 0; i < index; i++) {
+			current = current.next;
+		}
+		const oldData = current.data;
+		current.data = data;
+		return oldData;
+	}
+
+	clear() {
+		this.sentinel.next = null;
+		this.tail = this.sentinel;
+		this.size = 0;
+	}
+
 	toArray() {
 		const array = [];
 		let current = this.sentinel.next;
